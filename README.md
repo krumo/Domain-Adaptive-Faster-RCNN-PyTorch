@@ -45,15 +45,15 @@ An example of Domain Adaptive Faster R-CNN with FPN adapting from **Cityscapes**
     python tools/test_net.py --config-file "configs/da_faster_rcnn/e2e_da_faster_rcnn_R_50_C4_cityscapes_to_foggy_cityscapes.yaml" MODEL.WEIGHT <path_to_store_weight>/model_final.pth
     ```
 ### Pretrained Model & Results
-[Pretrained model]() with image+instance+consistency domain adaptation on Resnet-50 bakcbone for Cityscapes->Foggy Cityscapes task is provided. The following results are also tested with Resnet-50 backbone.
+[Pretrained model](https://polybox.ethz.ch/index.php/s/OgkNFJHVkEscTO0) with image+instance+consistency domain adaptation on Resnet-50 bakcbone for Cityscapes->Foggy Cityscapes task is provided. The following results are also tested with Resnet-50 backbone.
 
-|                  | image                | instsnace            | consistency          | car AP| 
+|                  | image                | instsnace            | consistency          | AP@50 | 
 |------------------|:--------------------:|:--------------------:|:--------------------:|:-----:|
-| Faster R-CNN     |                      |                      |                      |       |
-| DA Faster R-CNN  |          ✓           |                      |                      |       | 
-| DA Faster R-CNN  |                      |          ✓           |                      |       |
-| DA Faster R-CNN  |          ✓           |          ✓           |                      |       | 
-| DA Faster R-CNN  |          ✓           |          ✓           |          ✓           |       |
+| Faster R-CNN     |                      |                      |                      | 24.9  |
+| DA Faster R-CNN  |          ✓           |                      |                      | 38.3  | 
+| DA Faster R-CNN  |                      |          ✓           |                      | 38.8  |
+| DA Faster R-CNN  |          ✓           |          ✓           |                      | 40.8  | 
+| DA Faster R-CNN  |          ✓           |          ✓           |          ✓           | 41.0  |
 
 ## Other Implementation
 [da-faster-rcnn](https://github.com/yuhuayc/da-faster-rcnn) based on Caffe. (original code by paper authors)
