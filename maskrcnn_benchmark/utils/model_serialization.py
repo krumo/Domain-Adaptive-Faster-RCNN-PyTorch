@@ -56,6 +56,13 @@ def align_and_update_state_dicts(model_state_dict, loaded_state_dict):
                 tuple(loaded_state_dict[key_old].shape),
             )
         )
+    
+    for idx_new, idx_old in enumerate(idxs.tolist()):
+        if idx_old == -1:
+            key = current_keys[idx_new]
+            logger.info(
+                key + " is not loaded."
+            )
 
 
 def strip_prefix_if_present(state_dict, prefix):

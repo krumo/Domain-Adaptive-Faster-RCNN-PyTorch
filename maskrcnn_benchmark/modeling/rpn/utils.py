@@ -14,7 +14,7 @@ def permute_and_flatten(layer, N, A, C, H, W):
     return layer
 
 
-def concat_box_prediction_layers(box_cls, box_regression):
+def concat_box_prediction_layers(box_cls, box_regression, masks=None):
     box_cls_flattened = []
     box_regression_flattened = []
     # for each feature level, permute the outputs to make them be in the
@@ -24,6 +24,9 @@ def concat_box_prediction_layers(box_cls, box_regression):
     for box_cls_per_level, box_regression_per_level in zip(
         box_cls, box_regression
     ):
+        if masks is not None:
+            box_cls_per_level = box_cls_per_level[masks, :]
+            box_regression_per_level = box_regression_per_level[masks, :]
         N, AxC, H, W = box_cls_per_level.shape
         Ax4 = box_regression_per_level.shape[1]
         A = Ax4 // 4

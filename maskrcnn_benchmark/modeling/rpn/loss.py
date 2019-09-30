@@ -56,7 +56,14 @@ class RPNLossComputation(object):
     def prepare_targets(self, anchors, targets):
         labels = []
         regression_targets = []
+        masks = [] #masks for source domain data
         for anchors_per_image, targets_per_image in zip(anchors, targets):
+            is_source = targets_per_image.get_field('is_source')
+            mask_per_image = is_source.new_ones(1, dtype=torch.uint8) if is_source.any() else is_source.new_zeros(1, dtype=torch.uint8)
+            masks.append(mask_per_image)
+            if not is_source.any():
+                continue
+            
             matched_targets = self.match_targets_to_anchors(
                 anchors_per_image, targets_per_image, self.copied_fields
             )
@@ -86,7 +93,7 @@ class RPNLossComputation(object):
             labels.append(labels_per_image)
             regression_targets.append(regression_targets_per_image)
 
-        return labels, regression_targets
+        return labels, regression_targets, masks
 
 
     def __call__(self, anchors, objectness, box_regression, targets):
@@ -102,7 +109,10 @@ class RPNLossComputation(object):
             box_loss (Tensor
         """
         anchors = [cat_boxlist(anchors_per_image) for anchors_per_image in anchors]
-        labels, regression_targets = self.prepare_targets(anchors, targets)
+        labels, regression_targets, masks = self.prepare_targets(anchors, targets)
+        
+        masks = torch.cat(masks, dim=0)
+        
         sampled_pos_inds, sampled_neg_inds = self.fg_bg_sampler(labels)
         sampled_pos_inds = torch.nonzero(torch.cat(sampled_pos_inds, dim=0)).squeeze(1)
         sampled_neg_inds = torch.nonzero(torch.cat(sampled_neg_inds, dim=0)).squeeze(1)

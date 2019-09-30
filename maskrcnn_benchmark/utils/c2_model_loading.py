@@ -170,6 +170,5 @@ def load_resnet_c2_format(cfg, f):
     state_dict = _rename_weights_for_resnet(state_dict, stages)
     return dict(model=state_dict)
 
-
 def load_c2_format(cfg, f):
     return C2_FORMAT_LOADER[cfg.MODEL.BACKBONE.CONV_BODY](cfg, f)

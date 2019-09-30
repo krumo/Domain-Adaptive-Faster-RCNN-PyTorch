@@ -103,7 +103,59 @@ class DatasetCatalog(object):
         "cityscapes_fine_instanceonly_seg_test_cocostyle": {
             "img_dir": "cityscapes/images",
             "ann_file": "cityscapes/annotations/instancesonly_filtered_gtFine_test.json"
-        }
+        },
+        "foggy_cityscapes_fine_instanceonly_seg_train_cocostyle": {
+            "img_dir": "foggy_cityscapes/images",
+            "ann_file": "foggy_cityscapes/annotations/foggy_instancesonly_filtered_gtFine_train.json"
+        },
+        "foggy_cityscapes_fine_instanceonly_seg_val_cocostyle": {
+            "img_dir": "foggy_cityscapes/images",
+            "ann_file": "foggy_cityscapes/annotations/foggy_instancesonly_filtered_gtFine_val.json"
+        },
+        'sim10k_cocostyle': {
+                "img_dir": 'sim10k/JPEGImages',
+                "ann_file": 'sim10k/car_instances.json'
+        },
+        'kitti_cocostyle': {
+                "img_dir": 'kitti/training/image_2',
+                "ann_file": 'kitti/annotations/caronly_training.json'
+        },
+        'cityscapes_car_train_cocostyle': {
+                "img_dir": 'cityscapes/images',
+                "ann_file": 'cityscapes/annotations/caronly_filtered_gtFine_train.json',
+        },
+        'cityscapes_car_val_cocostyle': {
+                "img_dir": 'cityscapes/images',
+                "ann_file": 'cityscapes/annotations/caronly_filtered_gtFine_val.json',
+        },
+        "voc_2007_train_watercolor_cocostyle": {
+            "img_dir": "voc/VOC2007/JPEGImages",
+            "ann_file": "voc/annotations/pascal_train2007.json"
+        },
+        "voc_2007_val_watercolor_cocostyle": {
+            "img_dir": "voc/VOC2007/JPEGImages",
+            "ann_file": "voc/annotations/pascal_val2007.json"
+        },
+        "voc_2012_train_watercolor_cocostyle": {
+            "img_dir": "voc/VOC2012/JPEGImages",
+            "ann_file": "voc/annotations/pascal_train2012.json"
+        },
+        "voc_2012_val_watercolor_cocostyle": {
+            "img_dir": "voc/VOC2012/JPEGImages",
+            "ann_file": "voc/annotations/Annotations/pascal_val2012.json"
+        },
+        'clipart_cocostyle': {
+                "img_dir": 'clipart/JPEGImages',
+                "ann_file": 'clipart/instances.json',
+        },
+        'watercolor_train_cocostyle': {
+                "img_dir": 'watercolor/JPEGImages',
+                "ann_file": 'watercolor/instances_train.json',
+        },
+        'watercolor_val_cocostyle': {
+                "img_dir": 'watercolor/JPEGImages',
+                "ann_file": 'watercolor/instances_test.json',
+        },
     }
 
     @staticmethod

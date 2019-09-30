@@ -1,0 +1,35 @@
+MODEL:
+  META_ARCHITECTURE: "GeneralizedRCNN"
+  WEIGHT: "catalog://ImageNetPretrained/MSRA/R-50"
+  DOMAIN_ADAPTATION_ON: True
+  RPN:
+    PRE_NMS_TOP_N_TEST: 6000
+    POST_NMS_TOP_N_TEST: 1000
+  ROI_BOX_HEAD:
+    NUM_CLASSES: 9
+  ROI_HEADS:
+    BATCH_SIZE_PER_IMAGE: 256
+    NMS: 0.3
+  DA_HEADS:
+    DA_IMG_GRL_WEIGHT: 0.1
+    DA_INS_GRL_WEIGHT: 0.1
+DATALOADER:
+  SIZE_DIVISIBILITY: 32
+DATASETS:
+  TRAIN: ("cityscapes_fine_instanceonly_seg_train_cocostyle",)
+  SOURCE_TRAIN: ("cityscapes_fine_instanceonly_seg_train_cocostyle",)
+  TARGET_TRAIN: ("foggy_cityscapes_fine_instanceonly_seg_train_cocostyle",)
+  TEST: ("foggy_cityscapes_fine_instanceonly_seg_val_cocostyle",)
+INPUT:
+  MIN_SIZE_TRAIN: (600,)
+  MAX_SIZE_TRAIN: 1200
+  MIN_SIZE_TEST: 600
+  MAX_SIZE_TEST: 1200
+SOLVER:
+  BASE_LR: 0.001
+  WEIGHT_DECAY: 0.0005
+  STEPS: (50000,)
+  MAX_ITER: 70000
+  IMS_PER_BATCH: 2
+TEST:
+  IMS_PER_BATCH: 1

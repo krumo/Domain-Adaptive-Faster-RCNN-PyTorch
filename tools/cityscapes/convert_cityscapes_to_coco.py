@@ -28,11 +28,9 @@ import json
 import os
 import scipy.misc
 import sys
+import numpy as np
 
 import cityscapesscripts.evaluation.instances2dict_with_polygons as cs
-
-import detectron.utils.segms as segms_util
-import detectron.utils.boxes as bboxs_util
 
 
 def parse_args():
@@ -49,6 +47,33 @@ def parse_args():
         sys.exit(1)
     return parser.parse_args()
 
+def xyxy_to_xywh(xyxy):
+    """Convert [x1 y1 x2 y2] box format to [x1 y1 w h] format."""
+    if isinstance(xyxy, (list, tuple)):
+        # Single box given as a list of coordinates
+        assert len(xyxy) == 4
+        x1, y1 = xyxy[0], xyxy[1]
+        w = xyxy[2] - x1 + 1
+        h = xyxy[3] - y1 + 1
+        return (x1, y1, w, h)
+    elif isinstance(xyxy, np.ndarray):
+        # Multiple boxes given as a 2D ndarray
+        return np.hstack((xyxy[:, 0:2], xyxy[:, 2:4] - xyxy[:, 0:2] + 1))
+    else:
+        raise TypeError('Argument xyxy must be a list, tuple, or numpy array.')
+
+def polys_to_boxes(polys):
+    """Convert a list of polygons into an array of tight bounding boxes."""
+    boxes_from_polys = np.zeros((len(polys), 4), dtype=np.float32)
+    for i in range(len(polys)):
+        poly = polys[i]
+        x0 = min(min(p[::2]) for p in poly)
+        x1 = max(max(p[::2]) for p in poly)
+        y0 = min(min(p[1::2]) for p in poly)
+        y1 = max(max(p[1::2]) for p in poly)
+        boxes_from_polys[i, :] = [x0, y0, x1, y1]
+
+    return boxes_from_polys
 
 def convert_coco_stuff_mat(data_dir, out_dir):
     """Convert to png and save json with path. This currently only contains
@@ -136,6 +161,10 @@ def convert_cityscapes_instance_only(
         'motorcycle',
         'bicycle',
     ]
+    
+    for cat in category_instancesonly:
+        category_dict[cat] = cat_id
+        cat_id += 1
 
     for data_set, ann_dir in zip(sets, ann_dirs):
         print('Starting %s' % data_set)
@@ -193,18 +222,19 @@ def convert_cityscapes_instance_only(
                             ann['category_id'] = category_dict[object_cls]
                             ann['iscrowd'] = 0
                             ann['area'] = obj['pixelCount']
-                            ann['bbox'] = bboxs_util.xyxy_to_xywh(
-                                segms_util.polys_to_boxes(
+                            ann['bbox'] = xyxy_to_xywh(
+                                polys_to_boxes(
                                     [ann['segmentation']])).tolist()[0]
 
                             annotations.append(ann)
 
         ann_dict['images'] = images
         categories = [{"id": category_dict[name], "name": name} for name in
-                      category_dict]
+                      category_instancesonly]
         ann_dict['categories'] = categories
         ann_dict['annotations'] = annotations
         print("Num categories: %s" % len(categories))
+        print(categories)
         print("Num images: %s" % len(images))
         print("Num annotations: %s" % len(annotations))
         with open(os.path.join(out_dir, json_name % data_set), 'w') as outfile:

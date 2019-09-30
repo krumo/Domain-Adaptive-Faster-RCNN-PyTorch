@@ -23,6 +23,7 @@ _C = CN()
 _C.MODEL = CN()
 _C.MODEL.RPN_ONLY = False
 _C.MODEL.MASK_ON = False
+_C.MODEL.DOMAIN_ADAPTATION_ON =False
 _C.MODEL.RETINANET_ON = False
 _C.MODEL.KEYPOINT_ON = False
 _C.MODEL.DEVICE = "cuda"
@@ -61,6 +62,8 @@ _C.INPUT.TO_BGR255 = True
 _C.DATASETS = CN()
 # List of the dataset names for training, as present in paths_catalog.py
 _C.DATASETS.TRAIN = ()
+_C.DATASETS.SOURCE_TRAIN = ()
+_C.DATASETS.TARGET_TRAIN = ()
 # List of the dataset names for testing, as present in paths_catalog.py
 _C.DATASETS.TEST = ()
 
@@ -245,6 +248,16 @@ _C.MODEL.ROI_KEYPOINT_HEAD.CONV_LAYERS = tuple(512 for _ in range(8))
 _C.MODEL.ROI_KEYPOINT_HEAD.RESOLUTION = 14
 _C.MODEL.ROI_KEYPOINT_HEAD.NUM_CLASSES = 17
 _C.MODEL.ROI_KEYPOINT_HEAD.SHARE_BOX_FEATURE_EXTRACTOR = True
+
+# ---------------------------------------------------------------------------- #
+# Domain Adaptation HEADS options
+# ---------------------------------------------------------------------------- #
+_C.MODEL.DA_HEADS = CN()
+_C.MODEL.DA_HEADS.DA_IMG_GRL_WEIGHT = 0.1
+_C.MODEL.DA_HEADS.DA_INS_GRL_WEIGHT = 0.1
+_C.MODEL.DA_HEADS.DA_IMG_LOSS_WEIGHT = 1.0
+_C.MODEL.DA_HEADS.DA_INS_LOSS_WEIGHT = 1.0
+_C.MODEL.DA_HEADS.DA_CST_LOSS_WEIGHT = 0.1
 
 # ---------------------------------------------------------------------------- #
 # ResNe[X]t options (ResNets = {ResNet, ResNeXt}

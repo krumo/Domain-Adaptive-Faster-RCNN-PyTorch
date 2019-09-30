@@ -50,9 +50,9 @@ class Checkpointer(object):
         self.tag_last_checkpoint(save_file)
 
     def load(self, f=None):
-        if self.has_checkpoint():
-            # override argument with existing checkpoint
-            f = self.get_checkpoint_file()
+#         if self.has_checkpoint():
+#             # override argument with existing checkpoint
+#             f = self.get_checkpoint_file()
         if not f:
             # no checkpoint could be found
             self.logger.info("No checkpoint found. Initializing model from scratch")

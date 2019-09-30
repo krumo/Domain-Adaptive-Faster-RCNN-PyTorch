@@ -11,6 +11,7 @@ from maskrcnn_benchmark.structures.image_list import to_image_list
 from ..backbone import build_backbone
 from ..rpn.rpn import build_rpn
 from ..roi_heads.roi_heads import build_roi_heads
+from ..da_heads.da_heads import build_da_heads
 
 
 class GeneralizedRCNN(nn.Module):
@@ -29,6 +30,7 @@ class GeneralizedRCNN(nn.Module):
         self.backbone = build_backbone(cfg)
         self.rpn = build_rpn(cfg)
         self.roi_heads = build_roi_heads(cfg)
+        self.da_heads = build_da_heads(cfg)
 
     def forward(self, images, targets=None):
         """
@@ -48,8 +50,12 @@ class GeneralizedRCNN(nn.Module):
         images = to_image_list(images)
         features = self.backbone(images.tensors)
         proposals, proposal_losses = self.rpn(images, features, targets)
+        da_losses = {}
         if self.roi_heads:
-            x, result, detector_losses = self.roi_heads(features, proposals, targets)
+            x, result, detector_losses, da_ins_feas, da_ins_labels = self.roi_heads(features, proposals, targets)
+            if self.da_heads:
+                da_losses = self.da_heads(features, da_ins_feas, da_ins_labels, targets)
+
         else:
             # RPN-only models don't have roi_heads
             x = features
@@ -60,6 +66,7 @@ class GeneralizedRCNN(nn.Module):
             losses = {}
             losses.update(detector_losses)
             losses.update(proposal_losses)
+            losses.update(da_losses)
             return losses
 
         return result

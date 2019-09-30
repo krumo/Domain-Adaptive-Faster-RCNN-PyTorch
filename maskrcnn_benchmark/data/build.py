@@ -14,7 +14,7 @@ from .collate_batch import BatchCollator
 from .transforms import build_transforms
 
 
-def build_dataset(dataset_list, transforms, dataset_catalog, is_train=True):
+def build_dataset(dataset_list, transforms, dataset_catalog, is_train=True, is_source=True):
     """
     Arguments:
         dataset_list (list[str]): Contains the names of the datasets, i.e.,
@@ -40,6 +40,7 @@ def build_dataset(dataset_list, transforms, dataset_catalog, is_train=True):
         if data["factory"] == "PascalVOCDataset":
             args["use_difficult"] = not is_train
         args["transforms"] = transforms
+        args["is_source"] = is_source
         # make dataset from factory
         dataset = factory(**args)
         datasets.append(dataset)
@@ -104,7 +105,7 @@ def make_batch_data_sampler(
     return batch_sampler
 
 
-def make_data_loader(cfg, is_train=True, is_distributed=False, start_iter=0):
+def make_data_loader(cfg, is_train=True, is_source=True, is_distributed=False, start_iter=0):
     num_gpus = get_world_size()
     if is_train:
         images_per_batch = cfg.SOLVER.IMS_PER_BATCH
@@ -113,6 +114,12 @@ def make_data_loader(cfg, is_train=True, is_distributed=False, start_iter=0):
         ), "SOLVER.IMS_PER_BATCH ({}) must be divisible by the number "
         "of GPUs ({}) used.".format(images_per_batch, num_gpus)
         images_per_gpu = images_per_batch // num_gpus
+        if cfg.MODEL.DOMAIN_ADAPTATION_ON:
+            assert (
+            images_per_batch % (2*num_gpus) == 0
+            ), "SOLVER.IMS_PER_BATCH ({}) must be divisible by 2 times the number "
+            "of GPUs ({}) used.".format(images_per_batch, num_gpus)
+            images_per_gpu = images_per_batch // (2*num_gpus)
         shuffle = True
         num_iters = cfg.SOLVER.MAX_ITER
     else:
@@ -148,10 +155,18 @@ def make_data_loader(cfg, is_train=True, is_distributed=False, start_iter=0):
         "maskrcnn_benchmark.config.paths_catalog", cfg.PATHS_CATALOG, True
     )
     DatasetCatalog = paths_catalog.DatasetCatalog
-    dataset_list = cfg.DATASETS.TRAIN if is_train else cfg.DATASETS.TEST
+
+    if is_train:
+        if cfg.MODEL.DOMAIN_ADAPTATION_ON:
+            dataset_list = cfg.DATASETS.SOURCE_TRAIN if is_source else cfg.DATASETS.TARGET_TRAIN
+        else:
+            dataset_list = cfg.DATASETS.TRAIN
+    else:
+        dataset_list = cfg.DATASETS.TEST
+
 
     transforms = build_transforms(cfg, is_train)
-    datasets = build_dataset(dataset_list, transforms, DatasetCatalog, is_train)
+    datasets = build_dataset(dataset_list, transforms, DatasetCatalog, is_train, is_source)
 
     data_loaders = []
     for dataset in datasets:
