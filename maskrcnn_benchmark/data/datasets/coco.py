@@ -61,7 +61,7 @@ class COCODataset(torchvision.datasets.coco.CocoDetection):
             v: k for k, v in self.json_category_id_to_contiguous_id.items()
         }
         self.id_to_img_map = {k: v for k, v in enumerate(self.ids)}
-        self.transforms = transforms
+        self.transforms_ = transforms
         self.is_source = is_source
 
     def __getitem__(self, idx):
@@ -94,8 +94,8 @@ class COCODataset(torchvision.datasets.coco.CocoDetection):
 
         target = target.clip_to_image(remove_empty=True)
 
-        if self.transforms is not None:
-            img, target = self.transforms(img, target)
+        if self.transforms_ is not None:
+            img, target = self.transforms_(img, target)
 
         return img, target, idx
 

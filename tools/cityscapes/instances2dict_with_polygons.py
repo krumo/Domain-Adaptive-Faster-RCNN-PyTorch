@@ -7,7 +7,7 @@ from __future__ import print_function, absolute_import, division
 import os, sys
 
 sys.path.append( os.path.normpath( os.path.join( os.path.dirname( __file__ ) , '..' , 'helpers' ) ) )
-from csHelpers import *
+#from csHelpers import *
 
 # Cityscapes imports
 from cityscapesscripts.evaluation.instance import *

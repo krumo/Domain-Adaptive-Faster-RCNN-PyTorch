@@ -30,7 +30,7 @@ import scipy.misc
 import sys
 import numpy as np
 
-import cityscapesscripts.evaluation.instances2dict_with_polygons as cs
+import instances2dict_with_polygons as cs
 
 
 def parse_args():
