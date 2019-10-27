@@ -59,7 +59,7 @@ class RPNLossComputation(object):
         masks = [] #masks for source domain data
         for anchors_per_image, targets_per_image in zip(anchors, targets):
             is_source = targets_per_image.get_field('is_source')
-            mask_per_image = is_source.new_ones(1, dtype=torch.uint8) if is_source.any() else is_source.new_zeros(1, dtype=torch.uint8)
+            mask_per_image = is_source.new_ones(1, dtype=torch.bool) if is_source.any() else is_source.new_zeros(1, dtype=torch.bool)
             masks.append(mask_per_image)
             if not is_source.any():
                 continue

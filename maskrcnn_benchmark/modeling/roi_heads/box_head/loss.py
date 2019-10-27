@@ -78,7 +78,7 @@ class FastRCNNLossComputation(object):
                 matched_targets.bbox, proposals_per_image.bbox
             )
 
-            domain_label = torch.ones_like(labels_per_image, dtype=torch.uint8) if is_source.any() else torch.zeros_like(labels_per_image, dtype=torch.uint8)
+            domain_label = torch.ones_like(labels_per_image, dtype=torch.bool) if is_source.any() else torch.zeros_like(labels_per_image, dtype=torch.bool)
             domain_labels.append(domain_label)
 
             if not is_source.any():

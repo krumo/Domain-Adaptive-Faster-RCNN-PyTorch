@@ -84,7 +84,7 @@ class COCODataset(torchvision.datasets.coco.CocoDetection):
         masks = SegmentationMask(masks, img.size)
         target.add_field("masks", masks)
 
-        domain_labels = torch.ones_like(classes, dtype=torch.uint8) if self.is_source else torch.zeros_like(classes, dtype=torch.uint8)
+        domain_labels = torch.ones_like(classes, dtype=torch.bool) if self.is_source else torch.zeros_like(classes, dtype=torch.bool)
         target.add_field("is_source", domain_labels)
 
         if anno and "keypoints" in anno[0]:
