@@ -1,5 +1,5 @@
 # Domain Adaptive Faster R-CNN in PyTorch 
-This is a PyTorch implementation of 'Domain Adaptive Faster R-CNN for Object Detection in the Wild', implemented by Haoran Wang(haowang@student.ethz.ch). The original paper can be found [here](https://arxiv.org/pdf/1803.03243.pdf). This implementation is built on [maskrcnn-benchmark](https://github.com/facebookresearch/maskrcnn-benchmark) @ [e60f4ec](https://github.com/facebookresearch/maskrcnn-benchmark/tree/e60f4ec8dc50531debcfd5ae671ea167b5b7a1d9).
+This is a PyTorch implementation of 'Domain Adaptive Faster R-CNN for Object Detection in the Wild', implemented by Haoran Wang(whrzxzero@gmail.com). The original paper can be found [here](https://arxiv.org/pdf/1803.03243.pdf). This implementation is built on [maskrcnn-benchmark](https://github.com/facebookresearch/maskrcnn-benchmark) @ [e60f4ec](https://github.com/facebookresearch/maskrcnn-benchmark/tree/e60f4ec8dc50531debcfd5ae671ea167b5b7a1d9).
 
 If you find this repository useful, please cite the oringinal paper:
 
