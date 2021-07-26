@@ -59,3 +59,5 @@ An example of Domain Adaptive Faster R-CNN with FPN adapting from **Cityscapes**
 [da-faster-rcnn](https://github.com/yuhuayc/da-faster-rcnn) based on Caffe. (original code by paper authors)
 
 [Detectron-DA-Faster-RCNN](https://github.com/krumo/Detectron-DA-Faster-RCNN) based on Caffe2 and Detectron.
+
+[sa-da-faster](https://github.com/yuhuayc/sa-da-faster) based on PyTorch and maskrcnn-benchmark.
