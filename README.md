@@ -49,7 +49,11 @@ An example of Domain Adaptive Faster R-CNN with FPN adapting from **Cityscapes**
     python tools/test_net.py --config-file "configs/da_faster_rcnn/e2e_da_faster_rcnn_R_50_C4_cityscapes_to_foggy_cityscapes.yaml" MODEL.WEIGHT <path_to_store_weight>/model_final.pth
     ```
 ### Pretrained Model & Results
-[Pretrained model](https://polybox.ethz.ch/index.php/s/OgkNFJHVkEscTO0) with image+instance+consistency domain adaptation on Resnet-50 bakcbone for Cityscapes->Foggy Cityscapes task is provided. For those who might be interested, the corresponding training log could be checked at [here](logs/city2foggy_r50_consistency_log.txt). The following results are all tested with Resnet-50 backbone.
+~[Pretrained model](https://polybox.ethz.ch/index.php/s/OgkNFJHVkEscTO0) with image+instance+consistency domain adaptation on Resnet-50 bakcbone for Cityscapes->Foggy Cityscapes task is provided. For those who might be interested, the corresponding training log could be checked at [here](logs/city2foggy_r50_consistency_log.txt).~
+
+As the link above is not valid anymore, a newly pretrained model and the training log under the same setting could be found on [Google drive](https://drive.google.com/drive/folders/1d5jnKE1_Mu2skgHCiGv0PD9-ixxr2rvF?usp=sharing). Due to the change of running environment and the random number, the number would be slightly different compared to the previous one.
+
+The following results are all tested with Resnet-50 backbone.
 
 |                  | image                | instsnace            | consistency          | AP@50 | 
 |------------------|:--------------------:|:--------------------:|:--------------------:|:-----:|
