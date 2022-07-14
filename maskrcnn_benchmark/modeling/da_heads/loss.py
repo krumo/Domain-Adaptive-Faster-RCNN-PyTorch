@@ -31,12 +31,12 @@ class DALossComputation(object):
 
         self.pooler = pooler
         self.avgpool = nn.AvgPool2d(kernel_size=resolution, stride=resolution)
-        
+
     def prepare_masks(self, targets):
         masks = []
         for targets_per_image in targets:
             is_source = targets_per_image.get_field('is_source')
-            mask_per_image = is_source.new_ones(1, dtype=torch.uint8) if is_source.any() else is_source.new_zeros(1, dtype=torch.uint8)
+            mask_per_image = is_source.new_ones(1, dtype=torch.bool) if is_source.any() else is_source.new_zeros(1, dtype=torch.bool)
             masks.append(mask_per_image)
         return masks
 
@@ -73,13 +73,13 @@ class DALossComputation(object):
 
             da_img_per_level = da_img_per_level.reshape(N, -1)
             da_img_label_per_level = da_img_label_per_level.reshape(N, -1)
-            
+
             da_img_flattened.append(da_img_per_level)
             da_img_labels_flattened.append(da_img_label_per_level)
-            
-        da_img_flattened = torch.cat(da_img_flattened, dim=0)
-        da_img_labels_flattened = torch.cat(da_img_labels_flattened, dim=0)
-        
+
+        da_img_flattened = torch.cat(da_img_flattened, dim=1)
+        da_img_labels_flattened = torch.cat(da_img_labels_flattened, dim=1)
+
         da_img_loss = F.binary_cross_entropy_with_logits(
             da_img_flattened, da_img_labels_flattened
         )

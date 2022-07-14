@@ -112,10 +112,37 @@ class DatasetCatalog(object):
             "img_dir": "foggy_cityscapes/images",
             "ann_file": "foggy_cityscapes/annotations/foggy_instancesonly_filtered_gtFine_val.json"
         },
+
+
         'sim10k_cocostyle': {
-                "img_dir": 'sim10k/JPEGImages',
-                "ann_file": 'sim10k/car_instances.json'
+            "img_dir": 'sim10k/JPEGImages',
+            "ann_file": 'sim10k/car_instances.json'
         },
+        'sim10k2cityscapes_munit_singlesource_cocostyle': {
+            "img_dir": "sim10k2cs_munit/JPEGImages",
+            "ann_file": "sim10k2cs_munit/car_instances.json"
+        },
+        'cityscapes2sim10k_munit_singlesource_cocostyle': {
+            "img_dir": "cityscapes2sim10k_munit",
+            "ann_file": "cityscapes2sim10k_munit/caronly_filtered_val.json"
+        },
+
+
+
+        'mapillary_train_cocostyle': {
+            "img_dir": 'mapillary/img',
+            "ann_file": 'mapillary/coco/training.json'
+        },
+        'mapillary_val_cocostyle': {
+            "img_dir": 'mapillary/img',
+            "ann_file": 'mapillary/coco/validation.json'
+        },
+        'sim10k2mapillary_munit_singlesource_cocostyle': {
+            "img_dir": "sim10k2mapillary_munit/JPEGImages",
+            "ann_file": "sim10k2mapillary_munit/training.json"
+        },
+
+
         'kitti_cocostyle': {
                 "img_dir": 'kitti/training/image_2',
                 "ann_file": 'kitti/annotations/caronly_training.json'
